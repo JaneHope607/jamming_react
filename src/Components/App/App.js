@@ -17,6 +17,8 @@ class App extends React.Component {
       playlistTracks: [{name: 'playlistName2', artist: 'artist2', album: 'album2', id: 2}, 
       {name: 'playlistName3', artist: 'artist3', album: 'album3', id: 3}]
     };
+    this.addTrack = this.addTrack.bind(this);
+    // here we are binding current value of this to .addTrack()
   }
 
   addTrack(track) {
@@ -25,8 +27,15 @@ class App extends React.Component {
       return;
     } else {
       tracks.push(track);
-      this.setState({playlistTracks: tracks})
+      this.setState({playlistTracks: tracks});
     }
+  }
+
+  removeTrack(track) {
+    let tracks = this.state.playlistTracks;
+    tracks = tracks.filter(currentTrack => currentTrack.id !== track.id);
+    
+    this.setState({playlistTracks: tracks});
   }
 
   render() {
@@ -36,7 +45,7 @@ class App extends React.Component {
         <div className="App">
           <SearchBar />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} />
+            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} />
           </div>
         </div>
